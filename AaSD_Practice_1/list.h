@@ -4,19 +4,20 @@
 #include <sstream>
 using namespace std;
 class List {
+	
 private:
-	List* prev;
-	List* next;
-	int value;
 	List* create_list(int length);
 public:
+	List* prev;
+	List* next;
+	string value;
 	List();
-	List(int length,const std::string& values);
+	List(const std::string& values);
 	int get_length();
 	void print_list();
 	List get_element(int pos);
-	int get_value();
-	void add_element(int pos,int value);
+	string get_value();
+	void add_element(int pos,const string& value);
 	void delete_element(int pos);
-	void set_element(int pos, int value);
+	void set_value(string value);
 };

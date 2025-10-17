@@ -1,34 +1,38 @@
 #include "list.h"
-//#include <iostream>
-//#include <string>
-//#include <sstream>
-//using namespace std;
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
 
 List::List() {
-	prev = nullptr;
+    prev = nullptr;
     next = nullptr;
-	value = 0;
+    value = "";
 }
 
-List::List(int length, const string & values) {
-    if (length <= 0) {
-        next = prev = nullptr;
-        value = 0;
-        return;
-    }
-    List* head = create_list(length);
+List::List(const string & values) {
     std::stringstream ss(values);
-    List* curr = head;
-    int val;
     int count = 0;
-    while (ss >> val && curr) {
-        curr->value = val;
-        curr = curr->next;
+    string val;
+    while (ss >> val) {
         count++;
     }
-    value = head->value;
-    next = head->next;
-    prev = head->prev;
+    if (count == 0) {
+        next = prev = nullptr;
+        value = "";
+        return;
+    }
+    List* head = create_list(count);
+    std::stringstream st(values);
+    List* curr = head;
+    
+    while (st >> val && curr) {
+        curr->value = val;
+        curr = curr->next;
+    }
+    value = curr->value;
+    next = curr->next;
+    prev = curr->prev;
 }
 
 List* List::create_list(int length) {
@@ -54,15 +58,15 @@ void List::print_list() {
 
 List List::get_element(int pos) {
     List* curr = this;
-    if ((pos < this->get_length())&&(this->get_length()>=0)) {
+    if ((pos < this->get_length()) && (this->get_length() >= 0)) {
         for (int i = 0; i < pos; i++) {
             curr = curr->next;
         }
         return *curr;
-    }
-    else {
+    } else {
         cout << endl << "Нет элемента с таким индексом";
     }
+    return *this;
 }
 
 int List::get_length() {
@@ -75,6 +79,76 @@ int List::get_length() {
     return count;
 }
 
-int List::get_value() {
+string List::get_value() {
     return this->value;
+}
+
+void List::add_element(int pos, const string &value) {
+    List* node = new List();
+    node->value = value;
+    if (pos == 0) {
+        prev = node;
+        node->next = next;
+        node->prev = nullptr;
+        this->value = node->value;
+        next = node->next;
+        prev = node->prev;
+    } else if (pos == get_length()) {
+        List* curr = this;
+        while (curr->next) {
+            curr = curr->next;
+        }
+        node->prev = curr;
+        curr->next = node;
+        node->next = nullptr;
+    } else if (pos < get_length()) {
+        List* curr = this;
+        for (int i = 0; i < pos - 1; i++) {
+            curr = curr->next;
+        }
+        node->prev = curr;
+        node->next = curr->next;
+        curr->next = node;
+        if (node->next) {
+            node->next->prev = node;
+        }
+    } else {
+        cout << "Указан неверный индекс при добавлении";
+    }
+}
+
+void List::delete_element(int pos) {
+    if (pos == 0) {
+        if (next) {
+            value = next->value;
+            List* temp = next;
+            next = next->next;
+            if (next) {
+                next->prev = this;
+            }
+            delete temp;
+        }
+    } else if (pos == get_length() - 1) {
+        List* curr = this;
+        while (curr->next) {
+            curr = curr->next;
+        }
+        curr->prev->next = nullptr;
+        delete curr;
+    } else if (pos < get_length() - 1) {
+        List* curr = this;
+        for (int i = 0; i < pos; i++) {
+            curr = curr->next;
+        }
+        if (curr->prev = this)this->next = curr->next;
+        else curr->prev->next = curr->next;
+        curr->next->prev = curr->prev;
+        delete curr;
+    } else {
+        cout << "Указан неверный индекс при удалении";
+    }
+}
+
+void List::set_value(string value) {
+
 }
