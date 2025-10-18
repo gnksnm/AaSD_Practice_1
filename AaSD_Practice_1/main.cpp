@@ -65,7 +65,9 @@ std::string rpn(const std::string &ss) {
 
 int main() {
     std::string ss;
+    SetConsoleOutputCP(CP_UTF8);
+    std::cout << "Введите выражение (все символы и числа через пробел): ";
     getline(std::cin,ss);
-    std::cout<< rpn(ss);
+    std::cout<< "Обратная польская нотация : "<<rpn(ss);
     return 0;
 }
