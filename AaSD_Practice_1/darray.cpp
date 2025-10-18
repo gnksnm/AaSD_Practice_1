@@ -3,7 +3,7 @@
 DArray::DArray() {
 	size = 4;
 	count = 0;
-	arr = new string[size];
+	arr = new std::string[size];
 }
 
 DArray::~DArray() {
@@ -11,7 +11,7 @@ DArray::~DArray() {
 }
 
 void DArray::resize_arr(unsigned new_size) {
-	string* new_arr = new string[new_size];
+	std::string* new_arr = new std::string[new_size];
 	for (int i = 0; i <count; i++) {
 		new_arr[i] = arr[i];
 	}
@@ -19,7 +19,7 @@ void DArray::resize_arr(unsigned new_size) {
 	arr = new_arr;
 	size = new_size;
 } 
-void DArray::push_back(string value) {
+void DArray::push_back(std::string value) {
 	if (size == count) {
 		resize_arr(size * 2);
 	}
@@ -28,13 +28,13 @@ void DArray::push_back(string value) {
 }
 void DArray::pop_back() {
 	if (count == 0)
-		throw out_of_range("Dinamic array is empty!");
+		throw std::out_of_range("Dinamic array is empty!");
 	count--;
 }
 
-string& DArray::operator[](unsigned index) {
+std::string& DArray::operator[](unsigned index) {
 	if (index >= size)
-		throw out_of_range("Index out of range!");
+		throw std::out_of_range("Index out of range!");
 	return arr[index];
 }
 
