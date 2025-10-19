@@ -10,8 +10,8 @@ int priority(std::string token) {
     if (token == "(") return 1;
     if (token == "+" || token == "-") return 2;
     if (token == "*" || token == "/") return 3;
-    if (token == "sin" || token == "cos") return 4;
-    if (token == "^") return 5;
+    if (token == "sin" || token == "cos"||(token == "^")) return 4;
+    return 0;
 }
 bool is_number(std::string token) {
     try {
@@ -46,7 +46,7 @@ std::string rpn(const std::string &ss) {
                     output += stack.pop() + " ";
                 }
             }
-            else if (token == "^") {
+            else if (priority(token) == 4) {
                 stack.push(token);
             }
             else {
